@@ -24,28 +24,28 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-Zuora Z-Force Sample Code Suite: Invoice Owner Transfer
+Zuora Z-Force Sample Code Suite
 
 INTRODUCTION
 ------------
 
-The Invoice Owner Transfer sample code package is part of Zuora's Z-Force Sample Code Suite.  It provides an executable code example in an unmanaged Force.com package that allows Invoice Owner Transfer capability. 
+The Z-Force Sample Code Suite provides executable code examples in unmanaged Force.com packages. 
 
-PRE-REQUISITS
+PRE-REQUISITES
 -------------
 
-This sample code package is an unmanaged Force.com package that depends on the following Z-Force packages: 
+1. The Z-Force Sample Code Suite includes a set of unmanaged packages that depend on the following Z-Force managed packages: 
 - Z-Force 360 Version 2.2
 - Z-Force Quotes Version 5.3
 
-If you do not have Force.com Migration Tool already installed, please follow the instructions below: 
+2. If you do not have Force.com Migration Tool already installed, please follow the instructions below: 
 
-1. Visit http://java.sun.com/javase/downloads/index.jsp and install Java JDK, Version 6.1 or greater on the deployment machine.
-2. Visit http://ant.apache.org/ and install Apache Ant, Version 1.6 or greater on the deployment machine.
-3. Set up the environment variables (such as ANT_HOME, JAVA_HOME, and PATH) as specified in the Ant Installation Guide at http://ant.apache.org/manual/install.html.
-4. Log in to Salesforce on your deployment machine. Click Your Name | Setup | Develop | Tools, then click Force.com Migration Tool.
-5. Unzip the downloaded file to the directory of your choice. The Zip file contains a Jar file containing the ant tasks: ant-salesforce.jar
-6. Copy the ant-salesforce.jar file from the unzipped file into the ant lib directly.  The ant lib directly is located in the root folder of your Ant installation. 
+1). Visit http://java.sun.com/javase/downloads/index.jsp and install Java JDK, Version 6.1 or greater on the deployment machine.
+2). Visit http://ant.apache.org/ and install Apache Ant, Version 1.6 or greater on the deployment machine.
+3). Set up the environment variables (such as ANT_HOME, JAVA_HOME, and PATH) as specified in the Ant Installation Guide at http://ant.apache.org/manual/install.html.
+4). Log in to Salesforce on your deployment machine. Click Your Name | Setup | Develop | Tools, then click Force.com Migration Tool.
+5). Unzip the downloaded file to the directory of your choice. The Zip file contains a Jar file containing the ant tasks: ant-salesforce.jar
+6). Copy the ant-salesforce.jar file from the unzipped file into the ant lib directly.  The ant lib directly is located in the root folder of your Ant installation. 
 
 INSTALLATION-INSTRUCTIONS
 -------------------------
@@ -57,8 +57,7 @@ sf.password=
 
 Please note that the password should be your login password concatenated with the security token.
 
-2. Navigate to Z-Force/InvoiceOwnerTransfer folder, and type: 
+2. Navigate to Z-Force/<Sample Code Feature> folder, for instance, Z-Force/InvoiceOwnerTransfer and type: 
 ant deploy
 
-This will deploy the sample code unmanaged package into your Salesforce.com organization.  After the deploy completes successfully, you can log onto the Salesforce.com organization, and navigate to Setup --> App Setup --> Create --> Packages.  A new package "Z-Quotes Invoice Owner Transfer Sample" should have been created.  
-
+This will deploy the sample code unmanaged package into your Salesforce.com organization.  
