@@ -1,0 +1,54 @@
+<apex:component allowDML="true">
+	<apex:attribute name="fieldId" description="The field ID" type="string"
+		required="true" />
+	<apex:attribute name="targetId" Description="The target Id value"
+		type="string" required="true" />
+	<apex:attribute name="targetName" Description="The target Name value"
+		type="string" required="true" />
+	<apex:attribute name="objectId" Description="The object ID value"
+		type="string" required="true" />
+	<apex:attribute name="lookupType" Description="The lookup type value"
+		type="string" required="true" />
+
+	<script>
+  var newWin=null;
+  function openLookupPopup(name, id, objectId, lookupType, fieldId)
+  {
+    var url="/apex/LookupBrowse?namefield=" + name + "&idfield=" + id + "&objectId=" + objectId + "&lookupType=" + lookupType + "&fieldId=" + fieldId;
+    newWin=window.open(url, 'Popup','height=600,width=600,left=200,top=100,resizable=no,scrollbars=yes,toolbar=no,status=no');
+    if (window.focus) 
+    {
+      newWin.focus();
+    }
+     return false;
+  }
+          
+  function closeLookupPopup()
+  {
+     if (null!=newWin)
+     {
+        newWin.close();
+     }  
+  }
+  </script>
+
+	<apex:actionRegion >
+
+		<apex:inputHidden value="{!targetId}" id="targetId" />
+    <apex:inputHidden value="{!targetName}" id="targetName" />
+		<apex:inputText size="40" value="{!targetName}" id="targetNameDisplay"
+			disabled="true" />
+
+		<a href="#"
+			onclick="openLookupPopup('{!$Component.targetName}', '{!$Component.targetId}', '{!objectId}', '{!lookupType}', '{!fieldId}'); return false">
+			<img title="Lookup Browse"
+			onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';"
+			onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';"
+			onfocus="this.className = 'lookupIconOn';"
+			onblur="this.className = 'lookupIcon';" class="lookupIcon"
+			src="/s.gif" />
+		</a>
+
+	</apex:actionRegion>
+
+</apex:component>

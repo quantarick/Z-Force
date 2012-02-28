@@ -1,0 +1,76 @@
+<apex:page controller="zqu.ZQGeneratePdfController" action="{!onload}" showHeader="false" sidebar="false">
+    <apex:includeScript value="{!$Resource.zqu__JQuery142}" />
+    <script>
+    var j$ = jQuery.noConflict();
+    var prevTemplateIdIcon = null;
+    function onTemplateIdSelect(radioIcon) {
+        var radioIconId = radioIcon.id.replace(/:/g, "\\\:");
+        if (null != prevTemplateIdIcon) {
+            var prevRadioIcon = j$('#' + prevTemplateIdIcon.replace(/:/g, "\\\:"))
+                    .children();
+            var prevRadioIconId = prevRadioIcon.attr('id');
+            if (null != prevRadioIconId.match('imgRadioBtnChk')) {
+                prevRadioIcon.replaceWith(j$('#' + radioIconId).clone());
+                // NOTE, the replaceWith will return the original object which could not be use for following steps.
+                j$('#' + prevTemplateIdIcon.replace(/:/g, "\\\:")).children()
+                        .attr('id', prevRadioIconId);
+            }
+        }
+        prevTemplateIdIcon = j$('#' + radioIconId).parent().attr('id');
+
+        var options = j$('span[id$="stsGetTemplateId"]');
+        for ( var i = 0; i < options.size(); i++) {
+            if (radioIcon.parentNode.parentNode.parentNode.id != options.eq(i)
+                    .attr("id"))
+                options.eq(i).find('[onclick]').removeAttr('onclick');
+        }
+    }
+</script>
+	<apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock rendered="{!zApiLoginSuccess}">
+            <apex:pageBlockSection >
+                <apex:pageBlockTable id="templateTable" value="{!templates}"
+                    var="template" columns="3" rendered="{!IF(templates.size==0,false,true)}" style="width:100%;">
+                    <apex:facet name="header">Please select the Template you want to use:</apex:facet>
+                    <apex:column >
+                        <apex:actionStatus id="stsGetTemplateId">
+                            <apex:facet name="start">
+                                <apex:outputPanel id="panTemplateIdSelectStart">
+                                    <apex:image url="{!$Resource.zqu__ajaxLoading}" width="18"
+                                        height="18" />
+                                </apex:outputPanel>
+                            </apex:facet>
+                            <apex:facet name="stop">
+                                <apex:outputPanel id="panTemplateIdSelectComplete">
+                                    <apex:image id="imgRadioBtnChk"
+                                        rendered="{!template.Id == selectTemplateId}"
+                                        url="{!$Resource.zqu__radioBtnChk}" width="18" height="18" />
+                                    <apex:image id="imgRadioBtnUnchk"
+                                        rendered="{!NOT(template.Id == selectTemplateId)}"
+                                        url="{!$Resource.zqu__radioBtnUnChk}" width="18" height="18"
+                                        onclick="{onTemplateIdSelect(this);}" />
+                                    <apex:actionSupport status="stsGetTemplateId" event="onclick"
+                                        reRender="templateTable,btnConfirm,selectTemplateId">
+                                        <apex:param assignTo="{!selectTemplateId}" name="templateIdPara"
+                                            value="{!template.Id}" />
+                                        <apex:param assignTo="{!quoteTemplateId}" name="quoteTemplateIdParam"
+                                            value="{!template.zqu__Template_Id__c}" />
+                                    </apex:actionSupport>
+                                </apex:outputPanel>
+                            </apex:facet>
+                        </apex:actionStatus>
+                    </apex:column>
+                    <apex:column value="{!template.Name}" />
+                    <apex:column value="{!template.zqu__Description__c}" />
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:outputPanel id="btnConfirm">
+                    <apex:commandButton value="Confirm" action="{!generateDocument}"
+                        disabled="{!IF('' == selectTemplateId || null == selectTemplateId,true,false)}" />
+                </apex:outputPanel>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
