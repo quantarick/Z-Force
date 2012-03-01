@@ -24,17 +24,17 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-Zuora Z-Force Sample Code Suite: Invoice Owner Transfer
+Zuora Z-Force Sample Code Package: Invoice Owner Transfer
 
 INTRODUCTION
 ------------
 
-The Z-Force Sample Code Suite provides executable code example in an unmanaged package that allows Invoice Owner Transfer capabilities. 
+This Z-Force Sample Code package provides a reference implementation that allows Invoice Owner Transfer capability on Z-Force Quotes.
 
 PRE-REQUISITES
 -------------
 
-1. The Z-Force Sample Code Suite includes a set of unmanaged packages that depend on the following Z-Force managed packages: 
+1. This sample code package is an unmanaged package that depends on the following Z-Force managed packages: 
 - Z-Force 360 Version 2.2
 - Z-Force Quotes Version 5.3
 

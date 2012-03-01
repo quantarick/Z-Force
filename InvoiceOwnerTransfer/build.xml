@@ -13,7 +13,7 @@
   </target>
 
   <target name="retrieve">
-    <sf:retrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" retrieveTarget="${sf.retrievesrc}" packageNames="Z-Quotes Invoice Owner Transfer Sample" />
+    <sf:retrieve username="${sf.username}" password="${sf.password}" serverurl="${sf.serverurl}" retrieveTarget="${sf.retrievesrc}" packageNames="${zforce.package.names}" />
   </target>
 
   <target name="deployAndRunTests">
