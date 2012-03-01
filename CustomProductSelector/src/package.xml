@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Z-Quotes Product Selector With Filtering</fullName>
+    <description>A Z-Force Quotes sample code package that includes a reference implementation of a custom Product Selector with filtering capabilities using Global Methods and Components.</description>
+    <types>
+        <members>CustomProductSelectorController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>CustomProductSelector</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>zqu__ProductRatePlan__c.Region__c</members>
+        <members>zqu__ZProduct__c.Current_Product__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>zqu__Quote__c.Select_Products_with_filter</members>
+        <name>WebLink</name>
+    </types>
+    <version>22.0</version>
+</Package>
