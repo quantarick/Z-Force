@@ -1,14 +1,14 @@
 <project name="zforce.sample" default="" basedir=".">
 	<target name="deploy">
 		<subant target="deploy">
-			<property name="not.overloaded" value="not.overloaded" />
+			<property file="build.properties"/>
 			<fileset dir="." includes="*/build.xml" />
 		</subant>
 	</target>
-  <target name="retrieve">
-    <subant target="retrieve">
-      <property name="not.overloaded" value="not.overloaded" />
-      <fileset dir="." includes="*/build.xml" />
-    </subant>
-  </target>
+	<target name="retrieve">
+		<subant target="retrieve">
+      <property file="build.properties"/>
+			<fileset dir="." includes="*/build.xml" />
+		</subant>
+	</target>
 </project>
