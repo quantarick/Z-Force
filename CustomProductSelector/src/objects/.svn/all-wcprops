@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/src/objects
+END
+zqu__Quote__c.object
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/src/objects/zqu__Quote__c.object
+END
+zqu__ProductRatePlan__c.object
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/src/objects/zqu__ProductRatePlan__c.object
+END
+zqu__ZProduct__c.object
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/src/objects/zqu__ZProduct__c.object
+END

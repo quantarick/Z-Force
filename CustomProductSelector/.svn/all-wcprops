@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/.project
+END
+salesforce.schema
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/salesforce.schema
+END
+build.properties
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/build.properties
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/Zuora-salesforce/!svn/ver/1249/SampleCode/CustomProductSelector/README
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/Zuora-salesforce/!svn/ver/1252/SampleCode/CustomProductSelector/build.xml
+END

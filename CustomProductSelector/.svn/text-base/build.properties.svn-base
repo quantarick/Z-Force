@@ -1,10 +1,10 @@
 # Specify the login credentials for the dev Salesforce organization
-sf.username=tina.kung@invoiceowner.zuora.com
-sf.password=Agile#1234rMBHb98snq8lRXzZXFyZD5K2
+sf.username=
+sf.password=
 
 sf.devsrc=src
 sf.retrievesrc=src
 sf.namespace=
 sf.serverurl=https://www.salesforce.com
 
-zforce.package.names=Z-Quotes Invoice Owner Transfer Sample
+zforce.package.names=Z-Quotes Product Selector With Filtering

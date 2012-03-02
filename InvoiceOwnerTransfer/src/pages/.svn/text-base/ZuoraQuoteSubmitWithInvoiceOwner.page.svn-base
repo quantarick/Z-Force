@@ -1,0 +1,56 @@
+<apex:page standardController="zqu__Quote__c" extensions="SendToZBillingWithInvoiceOwnerController,OwnerTransferAmendment">
+    <apex:form >
+        <apex:pageMessages id="message"/>
+        
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1" id="accountsection">
+                <apex:outputLabel rendered="{!billingAccountList.size != 0}" value="There is one or more Z-Billing Account corresponding to this Salesforce Account." />
+                <apex:outputLabel value="Please select the account to use:" style="font-weight:bold"></apex:outputLabel>
+                <apex:selectRadio layout="pageDirection" id="accTypeRadio" value="{!selectedAccountType}">
+                    <apex:actionSupport event="onclick"  action="{!onSelectAccountType}" reRender="accListRadio, subscriptionSection, pageErrors"/>                      
+                    <apex:selectOption itemEscaped="false" itemlabel="New billing account" itemValue="new"  id="new_billingaccount"/>  
+                    <apex:selectOption itemEscaped="false" itemLabel="Existing billing account" itemValue="existing" itemDisabled="{!billingAccountList.size == 0}" id="existing_billingaccount"></apex:selectOption>
+                </apex:selectRadio>
+                <apex:outputPanel id="accListRadio">
+                    <apex:selectRadio layout="pageDirection" value="{!selectedAccount}"  style="position:relative;left:5%" rendered="{!selectedAccountType == 'existing' && billingAccountList.size > 0 }">  
+                        <apex:actionSupport event="onclick" action="{!onSelectAccount}" reRender="subscriptionSection, pageErrors"/>
+                        <apex:selectOptions value="{!billingAccountList}" ></apex:selectOptions>
+                    </apex:selectRadio>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Quote Details" >
+            <apex:pageBlockButtons id="operations">
+                <apex:commandButton value="Send to Z-Billing" action="{!send}" reRender="operations, message"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="Basic Information" columns="2" rendered="true">
+                <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SamplePreviewBasicInfoSet}" var="previewBasicInfoField">
+                <apex:outputField value="{!record[previewBasicInfoField]}"/>
+                </apex:repeat>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Subscription Owner Information" columns="2" rendered="true">
+                <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SamplePreviewInvoiceOwnerSet}" var="previewContactField">
+                <apex:outputField value="{!record[previewContactField]}"/>
+                </apex:repeat>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Invoice Owner Information" columns="2" rendered="true">
+                <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SamplePreviewContactSet}" var="previewContactField">
+                <apex:outputField value="{!record[previewContactField]}"/>
+                </apex:repeat>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Subscription Information" columns="2">
+                <apex:repeat value="{!IF(true,$ObjectType.zqu__Quote__c.FieldSets.SamplePreviewSubscriptionSet,$ObjectType.zqu__Quote__c.FieldSets.BasicInfoForAmendAndRenewalSet)}" var="previewSubscriptionField">
+                <apex:outputField value="{!record[previewSubscriptionField]}"/>
+                </apex:repeat>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Charge Groups" columns="1">
+                <apex:outputPanel >
+                     <apex:repeat value="{!chargeGroupList}" var="group">
+                         <zqu:zChargeGroup chargeGroup="{!group}" editMode="false" />
+                     </apex:repeat>
+                </apex:outputPanel>
+            </apex:pageBlockSection> 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
