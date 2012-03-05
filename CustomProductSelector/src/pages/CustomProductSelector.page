@@ -91,11 +91,15 @@
 						<apex:commandButton value="Querying ..." disabled="true" />
 					</apex:facet>
 					<apex:facet name="stop">
-						<apex:commandButton value="Select New Products"
-							action="{!toSelectNewProductsView}"
-							reRender="quoting_page_block, pageErrors"
-							rendered="{!! (editMode||selectNewProductViewMode) }"
-							status="selectNewProductStatus" />
+            <apex:outputPanel >
+              <apex:commandButton value="Select New Products"
+                action="{!toSelectNewProductsView}"
+                reRender="quoting_page_block, pageErrors"
+                rendered="{!! (editMode||selectNewProductViewMode) }"
+                status="selectNewProductStatus" />
+              <apex:commandButton value="Done" action="{!navigateBack}"
+                status="selectNewProductStatus" />
+            </apex:outputPanel>
 					</apex:facet>
 				</apex:actionStatus>
 			</apex:pageBlockSection>

@@ -279,6 +279,10 @@ public with sharing class CustomProductSelectorController {
     this.selectNewProductViewMode = false;
     return null;
   }
+  
+  public PageReference navigateBack() {
+  	return new PageReference( '/' + this.quote.Id ); 
+  }
 
   public void toSelectNewProductsView() {
     this.selectNewProductViewMode = true;
@@ -286,7 +290,7 @@ public with sharing class CustomProductSelectorController {
     this.selectedProductShare = new zqu.ZComponentDataShare();
     this.selectedRatePlanShare = new zqu.ZComponentDataShare();
   }
-
+  
   public String[] getProductDisplayFields() {
     return new String[] {
       'Name', 'zqu__SKU__c', 'zqu__Description__c', 'zqu__ZuoraId__c'
