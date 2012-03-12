@@ -4,6 +4,8 @@
     <description>A Z-Force Quotes sample code package that includes a reference implementation of a custom Product Selector with filtering capabilities using Global Methods and Components.</description>
     <types>
         <members>CustomProductSelectorController</members>
+        <members>CustomProductSelectorControllerTest</members>
+        <members>TestDataSetup</members>
         <name>ApexClass</name>
     </types>
     <types>
