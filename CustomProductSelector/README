@@ -34,69 +34,34 @@ This Z-Force Sample Code Package provides a reference implementation of a custom
 PRE-REQUISITES
 -------------
 
-1. This sample code package is an unmanaged package that depends on the following Z-Force managed packages: 
+This sample code package is an unmanaged package that depends on the following Z-Force managed packages: 
 - Z-Force 360 Version 2.2
 - Z-Force Quotes Version 5.3
 
-2. If you do not have Force.com Migration Tool already installed, please follow the instructions below: 
-
-1). Visit http://java.sun.com/javase/downloads/index.jsp and install Java JDK, Version 6.1 or greater on the deployment machine.
-2). Visit http://ant.apache.org/ and install Apache Ant, Version 1.6 or greater on the deployment machine.
-3). Set up the environment variables (such as ANT_HOME, JAVA_HOME, and PATH) as specified in the Ant Installation Guide at http://ant.apache.org/manual/install.html.
-4). Log in to Salesforce on your deployment machine. Click Your Name | Setup | Develop | Tools, then click Force.com Migration Tool.
-5). Unzip the downloaded file to the directory of your choice. The Zip file contains a Jar file containing the ant tasks: ant-salesforce.jar
-6). Copy the ant-salesforce.jar file from the unzipped file into the ant lib directly.  The ant lib directly is located in the root folder of your Ant installation. 
-INSTALLATION-INSTRUCTIONS
+INSTALLATION INSTRUCTIONS
 -------------------------
-There are 2 ways to install and deploy the sample code package.  
 
-Option 1: Install the package via the following installation URL: 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04td00000009sUy (version 1.1)
+1. Install this sample code package using the following Force.com Installation URL: 
 
-Please note that though this is the easiest way to install an unmanaged package, if later there is a newer version of the sample code package, you would need to uninstall all components in the package before installing the new version.  
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04td00000009ssW
 
-Option 2: Install and deploy using ant migration toolkit: 
-1. Open build.properties, and specify the login credentials for your Salesforce.com organization: 
+This will install sample code unmanaged package into your Salesforce.com organization.
 
-sf.username=
-sf.password= 
+CONFIGURATION INSTRUCTIONS 
+--------------------------
 
-Please note that the password should be your login password concatenated with the security token.
+1. Add "Select Products (With Filter)" button onto the following Quote V5.0 Layouts: 
+Quote Layout Default V5.0
+Quote Layout Amendment V5.0
+Quote Layout Renewal V5.0
 
-2. Navigate to Z-Force/CustomProductSelector folder, and type: 
-ant deploy
+2. Configure the Product-level and/or Product-Rate-Plan-level filter SOQL segments. 
+(1) Navigate to Setup --> Develop --> Custom Settings
+(2) Click "Manage" link for record "Custom Product Filter"
+(3) Create a new record named "filter" (it has to be exactly named "filter")
+(4) Enter values for Product Filter Fragment field.  For example, if "CurrentProduct__c" is a custom field on ZProduct object, and you'd like to filter Products based on this field equal to 'Yes', enter
+  CurrentProduct = 'Yes'
+(5) Enter values for RatePlan Filter Fragment field.  For example, if "Region__c" is a custom field on Product Rate Plan object, and you'd like to filter Products based on this field equal to 'US West', enter
+  Region__c = 'US West'
+ 
 
-This will deploy the sample code unmanaged package into your Salesforce.com organization.  
-
-PACKAGE CONTENTS 
-================
-
-1. Custom Fields
-This package includes the following 2 custom fields
-(1) zqu__ZProduct__c.Current_Product__c: A pick list field indicating whether the product is a current product.  Possible values are Yes and No.
-(2) zqu__ProductRatePlan__c.Region__c: A pick list field containing the region values, Possible values include US East, US West and US Central.
-
-2. Custom Button: Select Products with Filter
-This is a custom button that can be configured onto the Quote Layout.  It launches a VisualForce page CustomProductSelector that displays a Product Selector page, with the following filtering on Products and Rate Plans applied: 
-zqu__ZProduct__c.Current_Product__c = 'Yes'
-zqu__ProductRatePlan__c.Region__c = 'US East'
-
-The key filtering implementation is in CustomProductSelector Apex class.  As a developer you can specify a different filter criteria in the following constants that satisfy your own business requirements: 
-
-  /**
-   * Set up the Custom Product Filter.  In this example, there is a custom field Current_Product__c created on the ZProduct__c object:
-   * Type: Picklist
-   * Values: Yes, No
-   * 
-   * We will only show the products with Current_Product__c == 'Yes'
-   */
-  static final String PRODUCT_FILTER_SOQL_SEGMENT = ' AND Current_Product__c = \'Yes\' ';
-  
-  /**
-   * Set up the Custom Rate Plan Filter.  In this example, there is a custom field Region__c created on the Product_Rate_Plan__c object: 
-   * Type: Picklist
-   * Values: US West, US East, US Central. 
-   *
-   * We will only show the products with Region__c = 'US West'. 
-   */
-  static final String RATEPLAN_FILTER_SOQL_SEGMENT = ' AND Region__c = \'US East\' ';  
