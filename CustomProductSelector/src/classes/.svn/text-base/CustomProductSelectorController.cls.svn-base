@@ -3,25 +3,7 @@
  * The VF page and controller generates the sample scenario for Showing Existing Charges, Add Charges and, Edit Charges, and Delete Charges.
  */
 public with sharing class CustomProductSelectorController {
-	
-  /**
-   * Set up the Custom Product Filter.  In this example, there is a custom field Current_Product__c created on the ZProduct__c object:
-   * Type: Picklist
-   * Values: Yes, No
-   * 
-   * We will only show the products with Current_Product__c == 'Yes'
-   */
-  static final String PRODUCT_FILTER_SOQL_SEGMENT = ' AND Current_Product__c = \'Yes\' ';
-  
-  /**
-   * Set up the Custom Rate Plan Filter.  In this example, there is a custom field Region__c created on the Product_Rate_Plan__c object: 
-   * Type: Picklist
-   * Values: US West, US East, US Central. 
-   *
-   * We will only show the products with Region__c = 'US West'. 
-   */
-  static final String RATEPLAN_FILTER_SOQL_SEGMENT = ' AND Region__c = \'US East\' ';  
-   
+    
   public List < zqu.ZChargeGroup > chargeGroupList {
     get;
     set;
@@ -67,6 +49,18 @@ public with sharing class CustomProductSelectorController {
 
   public final static Integer PRODUCT_TABLE_PAGE_SIZE = 20;
   public final static Integer RATEPLAN_TABLE_PAGE_SIZE = 20;
+  
+  private String productFilterFragment = ' ';
+  private String rateplanFilterFragment = ' ';  
+   
+  private void loadCustomFilterSegments() {
+  	Custom_Product_Filter__c filterSegments = Custom_Product_Filter__c.getValues( 'filter' ); 
+  	if ( filterSegments != null ) {
+  		productFilterFragment = filterSegments.get( 'Product_Filter_Fragment__c' ) == null ? '' : ' AND ' + (String) filterSegments.get( 'Product_Filter_Fragment__c' );
+  		rateplanFilterFragment = filterSegments.get( 'RatePlan_Filter_Fragment__c' ) == null ? '' : ' AND ' + (String) filterSegments.get( 'RatePlan_Filter_Fragment__c' );
+  	}
+  	System.debug( 'rateplanFilterFragment=' + rateplanFilterFragment );
+  }
 
   public CustomProductSelectorController(ApexPages.StandardController controller) {
     initFailed = true;
@@ -75,14 +69,13 @@ public with sharing class CustomProductSelectorController {
       appendErrorMessage('Need to specify the id of quote.');
       return;
     }
+    
+    loadCustomFilterSegments();
+    
     List < zqu__Quote__c > quotelist = [SELECT Id, Name, zqu__Opportunity__r.Name, zqu__Opportunity__r.Account.Name, zqu__Opportunity__r.Account.Id, 
                                           zqu__RecordReadOnly__c, zqu__Currency__c, zqu__Status__c, zqu__StartDate__c, RecordTypeId
                                    FROM zqu__Quote__c WHERE Id = : quoteId LIMIT 1];
 
-    if (1 != quotelist.size()) {
-      appendErrorMessage('Invalid quote id.');
-      return;
-    }
     this.quote = quotelist[0];
 
     try {
@@ -117,7 +110,7 @@ public with sharing class CustomProductSelectorController {
     }
     
     String baseSoql = 'SELECT Id FROM zqu__ZProduct__c WHERE Id IN :productIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate '; 
-    baseSoql += PRODUCT_FILTER_SOQL_SEGMENT; 
+    baseSoql += productFilterFragment; 
     baseSoql += ' ORDER BY Name ASC LIMIT 10000 '; 
     
     products = Database.query( baseSoql ); 
@@ -141,7 +134,7 @@ public with sharing class CustomProductSelectorController {
     }
     
     String baseSoql = 'SELECT Id FROM zqu__ProductRatePlan__c WHERE Id IN :ratePlanIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate '; 
-    baseSoql += RATEPLAN_FILTER_SOQL_SEGMENT; 
+    baseSoql += rateplanFilterFragment; 
     baseSoql += ' ORDER BY Name ASC LIMIT 10000 '; 
     
     List<zqu__ProductRatePlan__c> ratePlans = Database.query( baseSoql ); 
@@ -228,6 +221,7 @@ public with sharing class CustomProductSelectorController {
           try {
             List < ID > rateplanIDs = this.getFilteredRatePlanIds(productId, quote.zqu__Currency__c, quote.zqu__StartDate__c);
             this.rateplanDataShare.dataObject = zqu.zQuoteUtil.getRatePlanSetController(ratePlanIDs, getRatePlanDisplayFields(), RATEPLAN_TABLE_PAGE_SIZE);
+            System.debug( 'tina dataObject = ' + selectedRatePlanShare.dataObject );
           } catch (zqu.ZQException e) {
             appendErrorMessage(e.getMessage());
             return null;
@@ -279,6 +273,10 @@ public with sharing class CustomProductSelectorController {
     this.selectNewProductViewMode = false;
     return null;
   }
+  
+  public PageReference navigateBack() {
+    return new PageReference( '/' + this.quote.Id ); 
+  }
 
   public void toSelectNewProductsView() {
     this.selectNewProductViewMode = true;
@@ -286,7 +284,7 @@ public with sharing class CustomProductSelectorController {
     this.selectedProductShare = new zqu.ZComponentDataShare();
     this.selectedRatePlanShare = new zqu.ZComponentDataShare();
   }
-
+  
   public String[] getProductDisplayFields() {
     return new String[] {
       'Name', 'zqu__SKU__c', 'zqu__Description__c', 'zqu__ZuoraId__c'
