@@ -38,14 +38,7 @@ private class CustomProductSelectorControllerTest {
     con.selectedProductShare = productShare; 
     con.selectedRatePlanShare = ratePlanShare;
     
-    productShare = con.selectedProductShare; 
-    ratePlanShare = con.selectedRatePlanShare;
-    
-    System.debug( 'productShare = ' + productShare ); 
-    System.debug( 'ratePlanShare = ' + ratePlanShare );
-    
-    System.assertEquals( true, con.getIsRenderRatePlan() );
-    System.assertEquals( false, con.getIsRenderChargeGroup() );
+    System.assertEquals( true, con.getIsRenderChargeGroup() );
     System.assertEquals( false, con.getNoMatchProduct() ); 
     System.assertEquals( '/' + quote.Id, con.navigateBack().getUrl() );  
     
@@ -63,10 +56,11 @@ private class CustomProductSelectorControllerTest {
     con.cancelEditing(); 
     System.assert( false == con.editMode );  
     
+    System.assertEquals( true, con.getIsRenderRatePlan() );
+    
     con.toSelectNewProductsView(); 
     System.assert( con.selectedProductShare.dataObject == null ); 
     System.assert( con.selectedRatePlanShare.dataObject == null ); 
-    
   }
   
   

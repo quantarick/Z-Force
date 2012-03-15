@@ -144,7 +144,6 @@ public with sharing class TestDataSetup {
       zprod.zqu__SKU__c = 'testingsku0001';
       zprod.zqu__ZuoraId__c = 'zuoraid0000000001';
       zprod.zqu__Deleted__c = false;
-      zprod.Current_Product__c = 'Yes'; 
       try {
         insert zprod;
       } catch (Exception e) {
@@ -165,7 +164,6 @@ public with sharing class TestDataSetup {
         p_rateplan.zqu__ZProduct__c = zprod.Id;
         p_rateplan.zqu__ZuoraId__c = String.valueOf(rpzuoraid);
         p_rateplan.zqu__Deleted__c = false;
-        p_rateplan.Region__c = 'US East'; 
         p_rateplans.add(p_rateplan);
         rpzuoraid++;
       }

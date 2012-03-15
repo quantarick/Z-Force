@@ -13,9 +13,13 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>zqu__ProductRatePlan__c.Region__c</members>
-        <members>zqu__ZProduct__c.Current_Product__c</members>
+        <members>Custom_Product_Filter__c.Product_Filter_Fragment__c</members>
+        <members>Custom_Product_Filter__c.RatePlan_Filter_Fragment__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>Custom_Product_Filter__c</members>
+        <name>CustomObject</name>
     </types>
     <types>
         <members>zqu__Quote__c.Select_Products_with_filter</members>
