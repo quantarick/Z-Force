@@ -1,0 +1,8 @@
+<apex:page sidebar="false" showHeader="false">
+  <apex:styleSheet value="{!$Resource.HPMSampleCSS}" />
+  <div id="zforce_hpm_callback_result">
+    <apex:outputText styleClass="confirm_message" value="Confirmation"/>
+    <br/>
+    <apex:outputText value="A payment method has been successfully created.  The payment method ID is {!$CurrentPage.parameters.pmid}. "/>
+  </div>
+</apex:page>

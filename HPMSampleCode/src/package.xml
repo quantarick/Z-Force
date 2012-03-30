@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Zuora Z-Payment Pages Sample Implementation</fullName>
+    <description>This sample implementation of Z-Payment Pages in Salesforce.com contains the following 2 scenarios: (1) Create a payment method from a Billing Account detail page (2) Create a payment method from Quote detail page that is associated with the quote that has been sent to Z-Billing.</description>
+    <types>
+        <members>ErrorCodeMapping</members>
+        <members>HPMCallbackController</members>
+        <members>HPMCallbackControllerTest</members>
+        <members>HPMConfigException</members>
+        <members>HPMSampleController</members>
+        <members>HPMSampleControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>HPMCallBack</members>
+        <members>HPMConfirm</members>
+        <members>HPMSample</members>
+        <members>PaymentMethodConfirm</members>
+        <members>PaymentMethodCreation</members>
+        <members>PaymentMethodCreationBillingAccount</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>HPM_Setting__c.HPM_App_Url__c</members>
+        <members>HPM_Setting__c.HPM_Page_Id__c</members>
+        <members>HPM_Setting__c.HPM_Security_Token__c</members>
+        <members>HPM_Setting__c.HPM_Tenant_Id__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>HPM_Setting__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>HPMSampleCSS</members>
+        <members>HPMSubmitButton</members>
+        <members>postmessage_js</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Zuora__CustomerAccount__c.New_Payment_Method</members>
+        <members>zqu__Quote__c.New_Payment_Method</members>
+        <name>WebLink</name>
+    </types>
+    <version>23.0</version>
+</Package>
