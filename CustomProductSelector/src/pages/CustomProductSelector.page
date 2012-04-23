@@ -13,15 +13,17 @@
 					rendered="{!editMode}">
 					<zqu:zChargeGroup editMode="{!editMode}"
 						chargeGroup="{!currentChargeGroup}">
-						<apex:actionStatus id="saveStatus">
+						<apex:actionStatus id="calculatingStatus">
 							<apex:facet name="start">
-								<apex:commandButton value="Saving ..." disabled="true" />
+								<apex:commandButton value="Updating ..." disabled="true" />
 							</apex:facet>
 							<apex:facet name="stop">
 								<apex:commandButton value="Save" action="{!saveChargeGroup}"
-									reRender="quoting_page_block, pageErrors" status="saveStatus" />
+									reRender="quoting_page_block, pageErrors"
+									status="calculatingStatus" />
 							</apex:facet>
 						</apex:actionStatus>
+
 						<apex:actionStatus id="cancelStatus">
 							<apex:facet name="start">
 								<apex:commandButton value="Canceling ..." disabled="true" />
@@ -91,15 +93,15 @@
 						<apex:commandButton value="Querying ..." disabled="true" />
 					</apex:facet>
 					<apex:facet name="stop">
-            <apex:outputPanel >
-              <apex:commandButton value="Select New Products"
-                action="{!toSelectNewProductsView}"
-                reRender="quoting_page_block, pageErrors"
-                rendered="{!! (editMode||selectNewProductViewMode) }"
-                status="selectNewProductStatus" />
-              <apex:commandButton value="Done" action="{!navigateBack}"
-                status="selectNewProductStatus" />
-            </apex:outputPanel>
+						<apex:outputPanel>
+							<apex:commandButton value="Select New Products"
+								action="{!toSelectNewProductsView}"
+								reRender="quoting_page_block, pageErrors"
+								rendered="{!! (editMode||selectNewProductViewMode) }"
+								status="selectNewProductStatus" />
+							<apex:commandButton value="Done" action="{!navigateBack}"
+								status="selectNewProductStatus" />
+						</apex:outputPanel>
 					</apex:facet>
 				</apex:actionStatus>
 			</apex:pageBlockSection>
