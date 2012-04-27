@@ -57,7 +57,7 @@ sf.password=
 
 Please note that the password should be your login password concatenated with the security token.
 
-2. Navigate to Z-Force/InvoiceOwnerTransfer folder, and type: 
+2. Navigate to Z-Force/OrderBuilderSampleCode/Amend folder, and type: 
 ant deploy
 
 This will deploy the sample code unmanaged package into your Salesforce.com organization.  
