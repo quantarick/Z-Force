@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Z-Force 360 Subscribe Sample Code</fullName>
+    <types>
+        <members>SubscribeCallSampleCode</members>
+        <members>SubscribeSampleCallHelper</members>
+        <members>SubscribeSampleCodeController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SampleTestPage</members>
+        <name>ApexPage</name>
+    </types>
+    <version>23.0</version>
+</Package>
