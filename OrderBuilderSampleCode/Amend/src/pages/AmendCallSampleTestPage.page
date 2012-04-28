@@ -1,5 +1,5 @@
 <apex:page controller="AmendCallSample">
-    <script type="text/javascript">
+	<script type="text/javascript">
         function showResult(success){
             if(success == true){
                 alert("Amend call is sucessful, please check your subscritpion in Z-Billing Platform");
@@ -8,11 +8,16 @@
             }
         }
     </script>
-    <span style="color:red; font-size:xx-large">Demostrate how use amend call api</span>
-    <br/>
-    <br/>
-    <apex:form >
-        Subscription ID:&nbsp;&nbsp; <apex:inputText value="{!subId}" id="subId" title="Please input subscription id, which you want to apply amendment..."/> &nbsp;&nbsp;
-        <apex:CommandButton value="Amend Call" action="{!amendForFullNewProduct}" oncomplete="showResult({!success})"/>
-    </apex:form>
+	<span style="color: red; font-size: xx-large">Demostrate how use
+		amend call api</span>
+	<br />
+	<br />
+	<apex:form>
+        Subscription ID:&nbsp;&nbsp; <apex:inputText value="{!subId}"
+			id="subId"
+			title="Please input subscription id, which you want to apply amendment..." /> &nbsp;&nbsp;
+        <apex:CommandButton value="Amend Call"
+			action="{!amendForFullNewProduct}"
+			oncomplete="showResult({!success})" />
+	</apex:form>
 </apex:page>
