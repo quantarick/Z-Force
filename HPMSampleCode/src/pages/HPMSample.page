@@ -7,18 +7,18 @@
 
     <script>
         function onsubmit_action() {
-            submitHostedPage('z_hppm_iframe');
+          submitHostedPage('z_hppm_iframe');
         }
-        
+
         function callbacksuccess(pmid) {
-          window.location = "{!$Page.PaymentMethodConfirm}?pmid=" + pmid + '&id=' + '{!$CurrentPage.parameters.id}'; 
+          window.location = "{!$Page.PaymentMethodConfirm}?pmid=" + pmid + '&id=' + '{!$CurrentPage.parameters.id}';
         }
-        
-        function callbackfailure( paramString ) {            
-            var redirUrl = "{!pageRef}" + paramString + '{!extraParamString}' + '&id=' + '{!$CurrentPage.parameters.id}';                
-            window.location = redirUrl;
-        }
-  </script>
+
+        function callbackfailure(paramString) {
+          var redirUrl = "{!pageRef}" + paramString + '{!extraParamString}' + '&id=' + '{!$CurrentPage.parameters.id}';
+          window.location = redirUrl;
+        }  
+    </script>
     <apex:outputPanel rendered="{!NOT(hasConfigError)}">
         <div id="zforce_hpm_frame">
             <iframe id="z_hppm_iframe" name="z_hppm_iframe" width="100%"

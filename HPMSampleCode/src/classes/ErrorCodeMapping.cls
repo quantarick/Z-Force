@@ -21,7 +21,10 @@ public without sharing class ErrorCodeMapping {
     'Sfdc.ErrorLoadingFrame' => 'An error occurred while loading Payment Method Page frame. ',
     'Sfdc.NoConfiguration' => 'There is no \"Zuora HPM Setting\" record found in HPM custom setting.  Please create it first.', 
     'Sfdc.InvalidConfiguration' => 'Please enter a valid value for the following field(s) in the HPM custom setting:', 
-    'Sfdc.InvalidField' => 'Please enter a valid value for the following field(s): '
+    'Sfdc.InvalidField' => 'Please enter a valid value for the following field(s): ', 
+    'Sfdc.CannotFindAccountId' => 'There is no billing account associated with the payment method. ', 
+    'Sfdc.ZoqlError' => 'An error occurred while executing SOQL: ', 
+    'Sfdc.ErrorSettingDefaultPaymentMethod' => 'An error occurred while setting default payment method and autopay: '
 	}; 
 	
 	/* Error field code and name mapping */
