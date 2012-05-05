@@ -4,8 +4,12 @@
  * 2). I want to preview the invoice for the next 2 months
  */
 global class AmendCallForAddNewProduct {
+	
+	private static Zuora.zApi zApiInstance = new Zuora.zApi();
 
   global Boolean amendForAddProduct(String subscriptionId) {
+  	zApiInstance.zLogin();
+  	
     // Prepare product for amend call
     String productId = createProduct();
     String productRatePlanId = createProductRatePlan(productId);
@@ -36,9 +40,6 @@ global class AmendCallForAddNewProduct {
   }
 
   private Boolean amendApiCall(Zuora.zObject amendment) {
-    Zuora.zApi zuorApi = new Zuora.zApi();
-    zuorApi.zlogin();
-
     Zuora.zApi.AmendRequest amendRequest = new Zuora.zApi.AmendRequest();
     Zuora.zObject[] amendments = new List < Zuora.zObject > {
       amendment
@@ -56,7 +57,7 @@ global class AmendCallForAddNewProduct {
     previewOptions.NumberOfPeriods = 2;
     amendRequest.previewOptions = previewOptions;
 
-    Zuora.zApi.AmendResult result = zuorApi.zamend(new List < Zuora.zApi.AmendRequest > {
+    Zuora.zApi.AmendResult result = zApiInstance.zamend(new List < Zuora.zApi.AmendRequest > {
       amendRequest
     });
 
@@ -149,10 +150,7 @@ global class AmendCallForAddNewProduct {
   }
 
   public static String createApiCall(Zuora.zObject zobj) {
-    Zuora.zApi zuorApi = new Zuora.zApi();
-    zuorApi.zlogin();
-
-    List < Zuora.zApi.SaveResult > results = zuorApi.zcreate(new List < Zuora.zObject > {
+    List < Zuora.zApi.SaveResult > results = zApiInstance.zcreate(new List < Zuora.zObject > {
       zobj
     });
 

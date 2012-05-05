@@ -45,6 +45,13 @@ public with sharing class AmendCallSample { // Sample
     // String subscriptionId = '4028e697368b38d50136961e9cf27c4a';
     AmendCallForAddNewProduct amend = new AmendCallForAddNewProduct();
     success = amend.amendForAddProduct(subId);
+    log();
     return null;
+  }
+  
+  public void log() {
+  	for ( Zuora.zApi.Logger logger : Zuora.zApi.loggers ) {
+  		System.debug( 'ZUORADEBUG: ' + logger.toString() );
+  	}
   }
 }

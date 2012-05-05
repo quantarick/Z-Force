@@ -1,23 +1,20 @@
 <apex:page controller="AmendCallSample">
-	<script type="text/javascript">
+    <script type="text/javascript">
         function showResult(success){
             if(success == true){
-                alert("Amend call is sucessful, please check your subscritpion in Z-Billing Platform");
+                alert("Amend call is successful.  Please check the debug log to preview the invoices. ");
             }else{
-                alert("Amend call is failure, please check your subscritpion.");
+                alert("Amend call has failed. Please make sure your subscription ID is valud.");
             }
         }
     </script>
-	<span style="color: red; font-size: xx-large">Demostrate how use
-		amend call api</span>
-	<br />
-	<br />
-	<apex:form>
+    <span style="color: #6FB440; font-size: 16px; position:relative; top:20px">This page demonstrates the usage of Zuora.zApi.zAmend() call. </span>
+    <apex:form style="top:20px; position:relative;">
         Subscription ID:&nbsp;&nbsp; <apex:inputText value="{!subId}"
-			id="subId"
-			title="Please input subscription id, which you want to apply amendment..." /> &nbsp;&nbsp;
+            id="subId"
+            title="Please enter the ID of the subscription, where you want to apply the amend() call and preview the invoices: " /> &nbsp;&nbsp;
         <apex:CommandButton value="Amend Call"
-			action="{!amendForFullNewProduct}"
-			oncomplete="showResult({!success})" />
-	</apex:form>
+            action="{!amendForFullNewProduct}"
+            oncomplete="showResult({!success})" />
+    </apex:form>
 </apex:page>

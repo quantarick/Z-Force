@@ -27,6 +27,7 @@
     </fieldSets>
     <fields>
         <fullName>InvoiceOwner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Billing Account</label>
         <referenceTo>Zuora__CustomerAccount__c</referenceTo>

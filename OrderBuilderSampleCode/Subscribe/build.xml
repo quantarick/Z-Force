@@ -3,30 +3,6 @@
   <property file="build.properties" />
   <property environment="env" />
   
-  <target name="clean-rc-dir">
-    <delete dir="${sf.rc_src}" />
-  </target>
-
-  <target name="create-rc-dir">
-    <mkdir dir="${sf.rc_src}" />
-  </target>
-
-  <target name="setup-rc-dir" depends="clean-rc-dir, create-rc-dir">
-    <!--copy ga_src files to rc_src directory-->
-    <copy toDir="${sf.rc_src}" overwrite="true">
-      <fileset dir="${sf.devsrc}" />
-    </copy>
-  </target>
-  
-  <target name="replace-namespace-for-automation" depends="setup-rc-dir">
-    <!--replace the namespace-->
-    <replaceregexp byline="true" flags="g">
-      <regexp pattern="([\W\s]+)${sf.ga_namespace}.([\w]+)" />
-      <substitution expression="\1${sf.rc_namespace}.\2" />
-      <fileset dir="${sf.rc_src}" includes="classes/*.cls" />
-    </replaceregexp>
-  </target>
-  
   <import file="../../sample-imports.xml"/>
 
 </project>

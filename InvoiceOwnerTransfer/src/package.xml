@@ -2,13 +2,11 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Z-Quotes Invoice Owner Transfer Sample</fullName>
     <types>
-        <members>CustomProductSelectorController</members>
         <members>OwnerTransferAmendment</members>
         <members>SendToZBillingWithInvoiceOwnerController</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>CustomProductSelector</members>
         <members>ZuoraQuoteSubmitWithInvoiceOwner</members>
         <name>ApexPage</name>
     </types>
@@ -29,5 +27,5 @@
         <members>zqu__Quote__c.Send_to_ZBilling_with_Invoice_Owner</members>
         <name>WebLink</name>
     </types>
-    <version>22.0</version>
+    <version>23.0</version>
 </Package>

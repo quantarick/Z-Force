@@ -43,5 +43,5 @@
         <members>zqu__Quote__c.New_Payment_Method</members>
         <name>WebLink</name>
     </types>
-    <version>23.0</version>
+    <version>22.0</version>
 </Package>

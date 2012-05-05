@@ -8,5 +8,9 @@
         <members>AmendCallForAddNewProduct</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>AmendCallSampleTestPage</members>
+        <name>ApexPage</name>
+    </types>
     <version>23.0</version>
 </Package>
