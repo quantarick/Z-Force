@@ -8,6 +8,7 @@
         <members>HPMCallbackControllerTest</members>
         <members>HPMConfigException</members>
         <members>HPMPostProcessController</members>
+        <members>HPMPostProcessControllerTest</members>
         <members>HPMSampleController</members>
         <members>HPMSampleControllerTest</members>
         <name>ApexClass</name>
@@ -43,5 +44,5 @@
         <members>zqu__Quote__c.New_Payment_Method</members>
         <name>WebLink</name>
     </types>
-    <version>22.0</version>
+    <version>23.0</version>
 </Package>

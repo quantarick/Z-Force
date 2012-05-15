@@ -9,7 +9,7 @@ public virtual with sharing class HPMPostProcessController {
 
   private HPMCallbackController callback;
   private String paymentMethodId;
-  private Zuora.zObject zAccount = new Zuora.zObject('Account');
+  private Zuora.zObject zAccount; 
   private List < String > errorMessages = new List < String > ();
   
   private static Zuora.zApi zapi;
@@ -41,8 +41,10 @@ public virtual with sharing class HPMPostProcessController {
    */
   public static Zuora.zApi getApiStub() {
     if (zApi == null) {
-      zapi = new Zuora.zApi();
-      zapi.zLogin();
+      if ( !Test.isRunningTest() ) {
+        zapi = new Zuora.zApi();
+        zapi.zLogin();
+      }
     }
     return zApi;
   }
@@ -58,7 +60,7 @@ public virtual with sharing class HPMPostProcessController {
     getApiStub();
     getZuoraAccount();
 
-    if (this.zAccount.getValue('Id') != null) {
+    if ( this.zAccount != null && this.zAccount.getValue('Id') != null) {
       setDefaultPaymentMethod();
     }
 
@@ -81,8 +83,10 @@ public virtual with sharing class HPMPostProcessController {
   private void getZuoraAccount() {
     try {
       String zoql = 'SELECT AccountId FROM PaymentMethod WHERE id = \'' + this.paymentMethodId + '\'';
-      System.debug( 'tina zoql = ' + zoql );
-      List < Zuora.zObject > zobjs = zapi.zquery(zoql);
+      List < Zuora.zObject > zobjs; 
+      if ( !Test.isRunningTest() ) {
+        zobjs = zapi.zquery(zoql);      	
+      }
       if (zobjs != null && zobjs.size() > 0) {
         zAccount.setValue('Id', (String) zobjs.get(0).getValue('AccountId'));
         System.debug('zAccount ID = ' + zAccount.getValue('Id'));
@@ -102,9 +106,11 @@ public virtual with sharing class HPMPostProcessController {
       zAccount.setValue('DefaultPaymentMethodId', this.paymentMethodId); 
       zAccount.setValue('AutoPay', 'true');
 
-      List < Zuora.zApi.SaveResult > results = zapi.zUpdate(new List < Zuora.zObject > {
-        zAccount
-      });
+      if ( !Test.isRunningTest() ) {
+	      List < Zuora.zApi.SaveResult > results = zapi.zUpdate(new List < Zuora.zObject > {
+	        zAccount
+	      });
+      }
     } catch (Exception e) {
       if (e instanceof Zuora.zRemoteException) {
         Zuora.zRemoteException re = (Zuora.ZRemoteException) e;
