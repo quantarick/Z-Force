@@ -29,10 +29,12 @@ Zuora Z-Force Sample Code Package: Zuora Z-Payment Pages Sample Implementation
 INTRODUCTION
 ------------
 
-This sample implementation of Z-Payment Pages in Salesforce.com contains the following 2 scenarios: 
-(1) Create a payment method from a Billing Account detail page 
-(2) Create a payment method from Quote detail page that is associated with the quote that has been sent to Z-Billing.
-The newly created payment method will be set as the default payment method of the associated billing account, and AutoPay will be enabled to the associated billing account.
+This sample implementation of Z-Payment Pages in Salesforce.com contains the following 2 user scenarios: 
+(1) Create a payment method for a billing account from the Billing Account Detail page; 
+(2) Create a payment method for a billing account associated with a quote in "Sent to Z-Billing" status, from the Quote Detail page.
+
+The newly created payment method will be set as the default payment method of the associated billing account, and "Auto-Pay" will be enabled for the associated billing account.  
+The default payment method and the Auto-Pay information will be available on the Billing Account record in SFDC after the next SFDC Sync is run.
 
 PRE-REQUISITES
 -------------
@@ -66,9 +68,10 @@ Quote Layout Renewal V5.0
 3. Follow the instructions on the following link to configure a Z-Payment Page in Zuora: 
 http://knowledgecenter.zuora.com/C_Zuora_User_Guides/B_Commerce/Z-Payments_Page_User_Guide/Implementing_Z-Payments_Page_with_Salesforce.com/B_Create_a_Hosted_Payment_Page_in_Zuora
 
-4. Follow the instructions on the following link to configure Z-Payment settings in Salesforce.com org: 
-http://knowledgecenter.zuora.com/C_Zuora_User_Guides/B_Commerce/Z-Payments_Page_User_Guide/Implementing_Z-Payments_Page_with_Salesforce.com/B_Create_a_Hosted_Payment_Page_in_Zuora
+4. Follow the instructions on the following link to configure Z-Payment settings in Salesforce.com organization: 
+http://knowledgecenter.zuora.com/C_Zuora_User_Guides/B_Commerce/Z-Payments_Page_User_Guide/Implementing_Z-Payments_Page_with_Salesforce.com/C_Configure_the_Z-Payments_Page_Settings_in_Salesforce.com
 
-For more information on Salesforce.com and Z-Payment Pages integration please refer to the Z-Payment Pages chapter on Zuora knowledge center. 
+For more information on Salesforce.com and Z-Payment Pages integration please refer to the Z-Payment Pages chapter on Zuora knowledge center: 
+http://knowledgecenter.zuora.com/C_Zuora_User_Guides/B_Commerce/Z-Payments_Page_User_Guide
  
 
