@@ -3,7 +3,7 @@
  * The VF page and controller generates the sample scenario for Showing Existing Charges, Add Charges and, Edit Charges, and Delete Charges.
  */
 public with sharing class CustomProductSelectorController {
-    
+
   public List < zqu.ZChargeGroup > chargeGroupList {
     get;
     set;
@@ -24,7 +24,7 @@ public with sharing class CustomProductSelectorController {
     get;
     set;
   }
-  private final List < ID > productIDs;
+  private List < ID > productIDs;
 
   public zqu.ZComponentDataShare productDataShare {
     get;
@@ -49,17 +49,17 @@ public with sharing class CustomProductSelectorController {
 
   public final static Integer PRODUCT_TABLE_PAGE_SIZE = 20;
   public final static Integer RATEPLAN_TABLE_PAGE_SIZE = 20;
-  
+
   private String productFilterFragment = ' ';
-  private String rateplanFilterFragment = ' ';  
-   
+  private String rateplanFilterFragment = ' ';
+
   private void loadCustomFilterSegments() {
-  	Custom_Product_Filter__c filterSegments = Custom_Product_Filter__c.getValues( 'filter' ); 
-  	if ( filterSegments != null ) {
-  		productFilterFragment = filterSegments.get( 'Product_Filter_Fragment__c' ) == null ? '' : ' AND ' + (String) filterSegments.get( 'Product_Filter_Fragment__c' );
-  		rateplanFilterFragment = filterSegments.get( 'RatePlan_Filter_Fragment__c' ) == null ? '' : ' AND ' + (String) filterSegments.get( 'RatePlan_Filter_Fragment__c' );
-  	}
-  	System.debug( 'rateplanFilterFragment=' + rateplanFilterFragment );
+    Custom_Product_Filter__c filterSegments = Custom_Product_Filter__c.getValues('filter');
+    if (filterSegments != null) {
+      productFilterFragment = filterSegments.get('Product_Filter_Fragment__c') == null ? '' : ' AND ' + (String) filterSegments.get('Product_Filter_Fragment__c');
+      rateplanFilterFragment = filterSegments.get('RatePlan_Filter_Fragment__c') == null ? '' : ' AND ' + (String) filterSegments.get('RatePlan_Filter_Fragment__c');
+    }
+    System.debug('rateplanFilterFragment=' + rateplanFilterFragment);
   }
 
   public CustomProductSelectorController(ApexPages.StandardController controller) {
@@ -69,12 +69,11 @@ public with sharing class CustomProductSelectorController {
       appendErrorMessage('Need to specify the id of quote.');
       return;
     }
-    
+
     loadCustomFilterSegments();
-    
-    List < zqu__Quote__c > quotelist = [SELECT Id, Name, zqu__Opportunity__r.Name, zqu__Opportunity__r.Account.Name, zqu__Opportunity__r.Account.Id, 
-                                          zqu__RecordReadOnly__c, zqu__Currency__c, zqu__Status__c, zqu__StartDate__c, RecordTypeId
-                                   FROM zqu__Quote__c WHERE Id = : quoteId LIMIT 1];
+
+    List < zqu__Quote__c > quotelist = [SELECT Id, Name, zqu__Opportunity__r.Name, zqu__Opportunity__r.Account.Name, zqu__Opportunity__r.Account.Id, zqu__RecordReadOnly__c, zqu__Currency__c, zqu__Status__c, zqu__StartDate__c, RecordTypeId
+    FROM zqu__Quote__c WHERE Id = : quoteId LIMIT 1];
 
     this.quote = quotelist[0];
 
@@ -82,9 +81,7 @@ public with sharing class CustomProductSelectorController {
       this.chargeGroupList = zqu.zQuoteUtil.getChargeGroups(this.quote.Id);
       this.editMode = false;
       this.selectNewProductViewMode = !(this.chargeGroupList.size() > 0);
-      this.productDataShare = new zqu.ZComponentDataShare();
-      this.productIDs = this.getFilteredZProductIds(quote.zqu__Currency__c, quote.zqu__StartDate__c);
-      this.productDataShare.dataObject = zqu.zQuoteUtil.getProductSetController(this.productIDs, this.getProductDisplayFields(), PRODUCT_TABLE_PAGE_SIZE);
+      refreshProducts();
     } catch (zqu.ZQException e) {
       appendErrorMessage(e.getMessage());
       return;
@@ -95,57 +92,87 @@ public with sharing class CustomProductSelectorController {
     this.selectedRatePlanShare = new zqu.ZComponentDataShare();
     this.initFailed = false;
   }
-  
-  private List<Id> getFilteredZProductIds( String zCurrency, Date zStartDate ) {
-    List<zqu__ZProduct__c> products; 
-    AggregateResult[] groupedResults = [ SELECT zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id 
-                                           FROM zqu__ProductRatePlanChargeTier__c 
-                                          WHERE zqu__Currency__c =:zCurrency
-                                            AND zqu__Deleted__c = false 
-                                         GROUP BY zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id ]; 
-   
-    List<Id> productIds = new List<Id>(); 
-    for ( AggregateResult result : groupedResults ) {
-      productIds.add( result.Id ); 
-    }
-    
-    String baseSoql = 'SELECT Id FROM zqu__ZProduct__c WHERE Id IN :productIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate '; 
-    baseSoql += productFilterFragment; 
-    baseSoql += ' ORDER BY Name ASC LIMIT 10000 '; 
-    
-    products = Database.query( baseSoql ); 
-    productIds = new List<Id>(); 
-    for ( zqu__zProduct__c product : products ) {
-      productIds.add( product.Id ); 
-    }
-    
-    return productIds; 
+
+  public String searchString {
+    get;
+    set;
   }
-  
-  private List<Id> getFilteredRatePlanIds(Id zProductId, String zCurrency, Date zStartDate){   
-    AggregateResult[] groupedResults = [ SELECT zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.Id 
-                                           FROM zqu__ProductRatePlanChargeTier__c 
-                                          WHERE zqu__Currency__c =:zCurrency 
-                                            AND zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id =:zProductID 
-                                         GROUP BY zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.Id ];
-    List<ID> ratePlanIds = new List<ID>();
-    for(AggregateResult gr: groupedResults){        
+
+  public void refreshProducts() {
+    this.productDataShare = new zqu.ZComponentDataShare();
+    this.productIDs = this.getFilteredZProductIds(quote.zqu__Currency__c, quote.zqu__StartDate__c);
+    if (this.searchString != null && this.searchString != '') {
+      this.productIds = searchProducts(this.productIDs, quote.zqu__StartDate__c);
+    }
+    this.productDataShare.dataObject = zqu.zQuoteUtil.getProductSetController(this.productIDs, this.getProductDisplayFields(), PRODUCT_TABLE_PAGE_SIZE);
+  }
+
+  public List < Id > searchProducts(List < Id > prodids, Date zqStartDate) {
+    List < Id > productIds = new List < Id > ();
+    try {
+      String searchQuery = '*' + searchString + '*';
+      searchQuery = 'FIND \'' + searchQuery + '\' IN ALL FIELDS RETURNING zqu__zProduct__c(Id, Name, zqu__SKU__c, zqu__Description__c, zqu__ZuoraId__c WHERE id in :prodids AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zQStartDate AND zqu__EffectiveEndDate__c >= :zQStartDate ORDER BY Name ASC)';
+      List < SObject > results = search.query(searchQuery)[0];
+      for (SObject sobj: results) {
+        productIds.add(sobj.Id);
+      }
+    } catch (Exception e) {
+      ApexPages.Message msg = new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage());
+      ApexPages.addMessage(msg);
+    }
+    return productIds;
+  }
+
+  private List < Id > getFilteredZProductIds(String zCurrency, Date zStartDate) {
+    List < zqu__ZProduct__c > products;
+    AggregateResult[] groupedResults = [SELECT zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id
+    FROM zqu__ProductRatePlanChargeTier__c
+    WHERE zqu__Currency__c = : zCurrency
+    AND zqu__Deleted__c = false
+    GROUP BY zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id];
+
+    List < Id > productIds = new List < Id > ();
+    for (AggregateResult result: groupedResults) {
+      productIds.add(result.Id);
+    }
+
+    String baseSoql = 'SELECT Id FROM zqu__ZProduct__c WHERE Id IN :productIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate ';
+    baseSoql += productFilterFragment;
+    baseSoql += ' ORDER BY Name ASC LIMIT 10000 ';
+
+    products = Database.query(baseSoql);
+    productIds = new List < Id > ();
+    for (zqu__zProduct__c product: products) {
+      productIds.add(product.Id);
+    }
+
+    return productIds;
+  }
+
+  private List < Id > getFilteredRatePlanIds(Id zProductId, String zCurrency, Date zStartDate) {
+    AggregateResult[] groupedResults = [SELECT zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.Id
+    FROM zqu__ProductRatePlanChargeTier__c
+    WHERE zqu__Currency__c = : zCurrency
+    AND zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.zqu__zProduct__r.Id = : zProductID
+    GROUP BY zqu__ProductRatePlanCharge__r.zqu__ProductRatePlan__r.Id];
+    List < ID > ratePlanIds = new List < ID > ();
+    for (AggregateResult gr: groupedResults) {
       ratePlanIds.add(gr.Id);
     }
-    
-    String baseSoql = 'SELECT Id FROM zqu__ProductRatePlan__c WHERE Id IN :ratePlanIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate '; 
-    baseSoql += rateplanFilterFragment; 
-    baseSoql += ' ORDER BY Name ASC LIMIT 10000 '; 
-    
-    List<zqu__ProductRatePlan__c> ratePlans = Database.query( baseSoql ); 
-    ratePlanIds = new List<Id>(); 
-    for ( zqu__ProductRatePlan__c ratePlan : ratePlans ) {
-      ratePlanIds.add( ratePlan.Id ); 
+
+    String baseSoql = 'SELECT Id FROM zqu__ProductRatePlan__c WHERE Id IN :ratePlanIds AND zqu__Deleted__c = false AND zqu__EffectiveStartDate__c <= :zStartDate AND zqu__EffectiveEndDate__c >= :zStartDate ';
+    baseSoql += rateplanFilterFragment;
+    baseSoql += ' ORDER BY Name ASC LIMIT 10000 ';
+
+    List < zqu__ProductRatePlan__c > ratePlans = Database.query(baseSoql);
+    ratePlanIds = new List < Id > ();
+    for (zqu__ProductRatePlan__c ratePlan: ratePlans) {
+      ratePlanIds.add(ratePlan.Id);
     }
-    
-    return ratePlanIds; 
+
+    return ratePlanIds;
   }
-  
+
   public PageReference saveChargeGroup() {
     if (null != this.quote && null != this.quote.Id) {
       zqu.ZChargeGroup updatedChargeGroup = null;
@@ -221,7 +248,7 @@ public with sharing class CustomProductSelectorController {
           try {
             List < ID > rateplanIDs = this.getFilteredRatePlanIds(productId, quote.zqu__Currency__c, quote.zqu__StartDate__c);
             this.rateplanDataShare.dataObject = zqu.zQuoteUtil.getRatePlanSetController(ratePlanIDs, getRatePlanDisplayFields(), RATEPLAN_TABLE_PAGE_SIZE);
-            System.debug( 'tina dataObject = ' + selectedRatePlanShare.dataObject );
+            System.debug('tina dataObject = ' + selectedRatePlanShare.dataObject);
           } catch (zqu.ZQException e) {
             appendErrorMessage(e.getMessage());
             return null;
@@ -273,9 +300,17 @@ public with sharing class CustomProductSelectorController {
     this.selectNewProductViewMode = false;
     return null;
   }
-  
+
   public PageReference navigateBack() {
-    return new PageReference( '/' + this.quote.Id ); 
+    return new PageReference('/' + this.quote.Id);
+  }
+
+  public PageReference cancel() {
+    this.selectNewProductViewMode = false;
+    if (this.chargeGroupList != null && this.chargeGroupList.size() > 0) return ApexPages.currentPage();
+    else {
+      return new PageReference('/' + this.quote.Id);
+    }
   }
 
   public void toSelectNewProductsView() {
@@ -284,16 +319,16 @@ public with sharing class CustomProductSelectorController {
     this.selectedProductShare = new zqu.ZComponentDataShare();
     this.selectedRatePlanShare = new zqu.ZComponentDataShare();
   }
-  
+
   public String[] getProductDisplayFields() {
     return new String[] {
-      'Name', 'zqu__SKU__c', 'zqu__Description__c', 'zqu__ZuoraId__c'
+      'Name', 'zqu__SKU__c', 'zqu__Description__c'
     };
   }
 
   public String[] getRatePlanDisplayFields() {
     return new String[] {
-      'Name', 'zqu__Description__c', 'zqu__ZuoraId__c', 'zqu__EffectiveStartDate__c', 'zqu__EffectiveEndDate__c', 'zqu__ZProduct__c'
+      'Name', 'zqu__Description__c', 'zqu__EffectiveStartDate__c', 'zqu__EffectiveEndDate__c', 'zqu__ZProduct__c'
     };
   }
 

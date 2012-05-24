@@ -29,7 +29,7 @@ Zuora Z-Force Sample Code Package: Custom Product Selector with Filtering
 INTRODUCTION
 ------------
 
-This Z-Force Sample Code Package provides a reference implementation of a custom Product Selector with filtering capabilities, built using Global Methods and Components. 
+This Z-Force Sample Code Package provides a reference implementation of a custom Product Selector with filtering and searching capabilities, built using Global Methods and Components. 
 
 PRE-REQUISITES
 -------------
@@ -43,7 +43,7 @@ INSTALLATION INSTRUCTIONS
 
 1. Install this sample code package using the following Force.com Installation URL: 
 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04td00000009ssW
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04td00000009tKb
 
 This will install sample code unmanaged package into your Salesforce.com organization.
 
