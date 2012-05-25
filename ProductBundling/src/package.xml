@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Z-Quotes Product Bundling</fullName>
+    <description>This package contains a reference implementation of Product Bundling.  A product bundle includes a list of Rate Plans.  Upon adding the product bundle to a quote, all rate plans belong to the product bundle will be added to the quote.</description>
+    <types>
+        <members>ProductBundleController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>ProductBundleSelector</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Product_Bundle_RatePlan__c.Product_Bundle__c</members>
+        <members>Product_Bundle_RatePlan__c.Product_Rate_Plan__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Product_Bundle_RatePlan__c</members>
+        <members>Product_Bundle__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Product_Bundle__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Product_Bundle_RatePlan__c-Product Bundle RatePlan Layout</members>
+        <members>Product_Bundle__c-Product Bundle Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Product_Bundle__c.All</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>zqu__Quote__c.Select_Product_Bundle</members>
+        <name>WebLink</name>
+    </types>
+    <version>22.0</version>
+</Package>

@@ -1,0 +1,33 @@
+<apex:page standardController="zqu__Quote__c"
+	extensions="ProductBundleController">
+
+	<apex:sectionHeader title="Select Product Bundle" description="Please select a product bundle.  Upon saving, all the rate plans associated with the product bundle will be added to the quote."/>
+	<apex:pageMessages />
+	<apex:form >
+		<apex:pageBlock >
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="Add Rate Plans" action="{!selectBundle}" />
+				<apex:commandButton value="Cancel" action="{!cancel}" />
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection >
+				<apex:selectList id="bundleField" label="Product Bundle"
+					value="{!selectedBundle}" multiselect="false">
+					<apex:selectOptions value="{!availableBundles}" />
+					<apex:actionSupport event="onchange" action="{!onchangeBundle}"
+						reRender="ratePlanList" />
+				</apex:selectList>
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Rate Plans" columns="1">
+			<apex:outputPanel id="ratePlanList">
+				<apex:pageBlockTable value="{!ratePlans}" var="ratePlan">
+					<apex:column value="{!ratePlan.Product_Rate_Plan__r.Name}" />
+					<apex:column value="{!ratePlan.Product_Rate_Plan__r.zqu__EffectiveStartDateTEXT__c}"
+						headerValue="Effective Start Date" />
+					<apex:column value="{!ratePlan.Product_Rate_Plan__r.zqu__EffectiveEndDateTEXT__c}"
+						headerValue="Effective End Date" />
+				</apex:pageBlockTable>
+			</apex:outputPanel>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

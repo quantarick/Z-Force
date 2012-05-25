@@ -1,0 +1,40 @@
+<apex:page controller="SubscriptionChargeUpdateController">
+	<apex:sectionHeader title="Update Subscription Charges"
+		description="Update the trigger date of the subscription charges, and create T&C amendments to update the initial terms of the associated subscriptions." />
+	<apex:pageMessages />
+	<apex:form >
+		<apex:pageBlock >
+			<apex:pageBlockButtons location="bottom">
+				<apex:actionStatus id="stsUpdateCharges">
+					<apex:facet name="start">
+						<apex:commandButton value="Updating..." disabled="true" />
+					</apex:facet>
+					<apex:facet name="stop">
+						<apex:commandButton id="updateCharges" action="{!updateCharges}"
+							value="Update Charges" status="stsUpdateCharges" />
+					</apex:facet>
+				</apex:actionStatus>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection columns="1">
+				<apex:inputField value="{!subscriptionForUpdate.Zuora__ServiceActivationDate__c}"
+					required="true" />
+				<apex:inputField value="{!subscriptionForUpdate.Zuora__InitialTerm__c}"
+					required="true" label="Term" />
+			</apex:pageBlockSection>
+			<apex:pageBlockSection title="Subscription Charges" columns="1">
+				<apex:outputPanel id="chargeList">
+					<apex:pageBlockTable value="{!subscriptionCharges}" var="charge">
+						<apex:column value="{!charge.Zuora__Subscription__c}" />
+						<apex:column value="{!charge.Name}" />
+						<apex:column value="{!charge.Zuora__Model__c}" />
+						<apex:column value="{!charge.Zuora__Price__c}" />
+						<apex:column value="{!charge.Zuora__UOM__c}" />
+						<apex:column value="{!charge.Zuora__BillingPeriod__c}" />
+						<apex:column value="{!charge.Zuora__EffectiveStartDate__c}" />
+						<apex:column value="{!charge.Zuora__EffectiveEndDate__c}" />
+					</apex:pageBlockTable>
+				</apex:outputPanel>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>
