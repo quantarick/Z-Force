@@ -51,6 +51,8 @@ PRE-REQUISITES
 INSTALLATION-INSTRUCTIONS
 -------------------------
 
+You can choose two approaches, the first one is by "ant deploy":
+
 1. Open build.properties, and specify the login credentials for your Salesforce.com organization: 
 
 sf.username=
@@ -62,6 +64,15 @@ Please note that the password should be your login password concatenated with th
 ant deploy
 
 This will deploy the sample code unmanaged package into your Salesforce.com organization.  
+
+
+And the second approach is by installation:
+
+1. Install this sample code package using the following Force.com Installation URL: 
+
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04tE0000000HPlS
+
+This will install sample code unmanaged package into your Salesforce.com organization.
 
 PACKAGE CONTENTS 
 ================
