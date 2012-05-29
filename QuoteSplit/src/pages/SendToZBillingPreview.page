@@ -1,0 +1,31 @@
+<apex:page standardController="zqu__Quote__c" extensions="SendToZBillingPreviewController">
+  <apex:form >
+    <apex:pageMessages id="message" />
+    <apex:pageBlock title="Billing Account Details">
+      <apex:outputLabel rendered="{!billingAccountOptionList.size == 0}" value="There need to be at least one Z-Billing Account corresponding to this Salesforce Account."
+      />
+      <apex:pageBlockSection rendered="{!billingAccountOptionList.size > 0}"
+      columns="1" id="accountsection">
+        <apex:outputLabel value="Please select the account to use:" style="font-weight:bold"></apex:outputLabel>
+        <apex:outputPanel id="accListRadio">
+          <apex:selectRadio layout="pageDirection" value="{!selectedBillingAccountId}" style="position:relative;left:5%"
+          rendered="{!billingAccountOptionList.size > 0 }">
+            <apex:selectOptions value="{!billingAccountOptionList}"></apex:selectOptions>
+          </apex:selectRadio>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock rendered="{!billingAccountOptionList.size > 0}" title="Quote Details">
+      <apex:pageBlockButtons id="operations">
+        <apex:commandButton value="Send to Z-Billing" action="{!doSend}" reRender="operations, message"
+        /></apex:pageBlockButtons>
+      <apex:pageBlockSection title="Charge Groups" columns="1">
+        <apex:outputPanel >
+          <apex:repeat value="{!chargeGroupList}" var="group">
+            <zqu:zChargeGroup chargeGroup="{!group}" editMode="false" />
+          </apex:repeat>
+        </apex:outputPanel>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>
