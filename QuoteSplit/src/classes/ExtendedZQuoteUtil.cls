@@ -1,5 +1,5 @@
 /**
- * Sample code of spliting single Quote(MasterQuote) into two Quotes(SubQuote) and sending to Z-Billing.
+ * Sample code of splitting single Quote(MasterQuote) into two Quotes(SubQuote) and sending to Z-Billing.
  * 
  * User case
  *    a. The customers have two categories of Rate Plans (e.g. Regular/Power) that need to send to Z-Billing according to the categories but track using one MasterQuote. 
@@ -39,8 +39,8 @@ global Class ExtendedZQuoteUtil {
 
     // Create two Quotes, one for "Regular" Quote, and another for "Power" Quote.
     String subscribeDate = String.valueOf(System.now());
-    final zqu__Quote__c regularQuote = generateSubQuote(masterQuote, '[Regular]', subscribeDate);
-    final zqu__Quote__c powerQuote = generateSubQuote(masterQuote, '[Power]', subscribeDate);
+    final zqu__Quote__c regularQuote = generateSubQuote(masterQuote, CATEGORY_REGULAR, subscribeDate);
+    final zqu__Quote__c powerQuote = generateSubQuote(masterQuote, CATEGORY_POWER, subscribeDate);
 
     // Split the MasterQuote as two SubQuotes.
     splitQuote(masterQuote, regularQuote, powerQuote);
@@ -93,13 +93,20 @@ global Class ExtendedZQuoteUtil {
   /**
    * Generate SubQuote.
    */
-  private static zqu__Quote__c generateSubQuote(zqu__Quote__c masterQuote, String namePrefix, String nameSurfix) {
+  private static zqu__Quote__c generateSubQuote(zqu__Quote__c masterQuote, String category, String timeStamp) {
     zqu__Quote__c subQuote = masterQuote.clone();
-    subQuote.Name = namePrefix + ' ' + masterQuote.Name + ' ' + nameSurfix;
-    // Set the look-up key to MasterQuote__c, if customer want to support sending SubQuotes seperately, 
-    // and update MasterQuote seperately, then the MasterQuote__c will be used.
-    subQuote.MasterQuote__c = masterQuote.id;
-    subQuote.zqu__Opportunity__c = masterQuote.zqu__Opportunity__c;
+    // Initialize the SubQuote.
+    {
+	    subQuote.Extended_Zuora_Subscription_ID__c = null;
+	    subQuote.zqu__ZuoraSubscriptionID__c = null;
+	    subQuote.Name = '[' + category + ']' + ' ' + masterQuote.Name + ' ' + timeStamp;
+	    subQUote.zqu__Description__c = subQuote.Name;
+	    
+	    // Set the look-up key to MasterQuote__c, if customer want to support sending SubQuotes seperately, 
+	    // and update MasterQuote seperately, then the MasterQuote__c will be used.
+	    subQuote.MasterQuote__c = masterQuote.id;
+	    subQuote.zqu__Opportunity__c = masterQuote.zqu__Opportunity__c;
+    }
     insert subQuote;
     return subQuote;
   }
@@ -170,7 +177,7 @@ global Class ExtendedZQuoteUtil {
    * Unit Test.
    */@isTest
   private static void splitQuoteTest() {
-    final zqu__Quote__c masterQuote = TestDataSetup.getQuote();
+    final zqu__Quote__c masterQuote = ExtendedTestDataSetup.getQuote();
 
     String subscribeDate = String.valueOf(System.now());
     final zqu__Quote__c regularQuote = ExtendedZQuoteUtil.generateSubQuote(masterQuote, '[Regular]', subscribeDate);
@@ -180,18 +187,18 @@ global Class ExtendedZQuoteUtil {
 
     final List < zqu__QuoteCharge__c > regularQuoteCharges = [SELECT zqu__Quote__c, zqu__ProductRatePlanName__c FROM zqu__QuoteCharge__c WHERE zqu__Quote__c = : regularQuote.id];
     for (zqu__QuoteCharge__c regularQuoteCharge: regularQuoteCharges) {
-      System.assertEquals(CATEGORY_REGULAR, TestDataSetup.PLAN_NAME_CATEGORY_MAPPING.get(regularQuoteCharge.zqu__ProductRatePlanName__c));
+      System.assertEquals(CATEGORY_REGULAR, ExtendedTestDataSetup.PLAN_NAME_CATEGORY_MAPPING.get(regularQuoteCharge.zqu__ProductRatePlanName__c));
     }
 
     final List < zqu__QuoteCharge__c > powerQuoteCharges = [SELECT zqu__Quote__c, zqu__ProductRatePlanName__c FROM zqu__QuoteCharge__c WHERE zqu__Quote__c = : powerQuote.id];
     for (zqu__QuoteCharge__c powerQuoteCharge: powerQuoteCharges) {
-      System.assertEquals(CATEGORY_POWER, TestDataSetup.PLAN_NAME_CATEGORY_MAPPING.get(powerQuoteCharge.zqu__ProductRatePlanName__c));
+      System.assertEquals(CATEGORY_POWER, ExtendedTestDataSetup.PLAN_NAME_CATEGORY_MAPPING.get(powerQuoteCharge.zqu__ProductRatePlanName__c));
     }
   }
 
   @isTest
   private static void doSendCodeCoverageTest() {
-    final zqu__Quote__c masterQuote = TestDataSetup.getQuote();
+    final zqu__Quote__c masterQuote = ExtendedTestDataSetup.getQuote();
 
     String subscribeDate = String.valueOf(System.now());
     final zqu__Quote__c regularQuote = generateSubQuote(masterQuote, '[Regular]', subscribeDate);

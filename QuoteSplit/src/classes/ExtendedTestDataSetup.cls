@@ -1,5 +1,5 @@
 @isTest
-public with sharing class TestDataSetup {
+public with sharing class ExtendedTestDataSetup {
 
   public static final String OPPORTUNITY_NAME = 'test opp';
   public static final Boolean DEFAULT_ALLOW_UPDATE_BILL_CYCLE_DAY = false;
@@ -159,7 +159,7 @@ public with sharing class TestDataSetup {
       try {
         insert zprod;
       } catch (Exception e) {
-        System.assert(false, 'TestDataSetup.prepareProductCatalog: Exception occured while inserting ZProduct__c. Exception Details: ' + e.getMessage());
+        System.assert(false, 'ExtendedTestDataSetup.prepareProductCatalog: Exception occured while inserting ZProduct__c. Exception Details: ' + e.getMessage());
       }
       System.assert(null != zprod.Id, 'Product record preparation failed when prepare for testing product catalog.');
 
@@ -183,7 +183,7 @@ public with sharing class TestDataSetup {
       try {
         insert p_rateplans;
       } catch (Exception e) {
-        System.assert(false, 'TestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlan__c records. Exception Details: ' + e.getMessage());
+        System.assert(false, 'ExtendedTestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlan__c records. Exception Details: ' + e.getMessage());
       }
       System.assert(p_rateplans.size() > 0, 'Product Rateplan records prepare failed when prepare for testing product catalog.');
       List < zqu__ProductRatePlanCharge__c > p_all_charges = new List < zqu__ProductRatePlanCharge__c > ();
@@ -194,7 +194,7 @@ public with sharing class TestDataSetup {
       try {
         insert p_all_charges;
       } catch (Exception e) {
-        System.assert(false, 'TestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlanCharge__c records. Exception Details: ' + e.getMessage());
+        System.assert(false, 'ExtendedTestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlanCharge__c records. Exception Details: ' + e.getMessage());
       }
       System.assert(p_all_charges.size() > 0, 'Product Rateplan charge records prepare failed when prepare for testing product catalog.');
       List < zqu__ProductRatePlanChargeTier__c > p_all_tiers = new List < zqu__ProductRatePlanChargeTier__c > ();
@@ -205,7 +205,7 @@ public with sharing class TestDataSetup {
       try {
         insert p_all_tiers;
       } catch (Exception e) {
-        System.assert(false, 'TestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlanChargeTier__c records. Exception Details: ' + e.getMessage());
+        System.assert(false, 'ExtendedTestDataSetup.prepareProductCatalog: Exception occured while inserting ProductRatePlanChargeTier__c records. Exception Details: ' + e.getMessage());
       }
       System.assert(p_all_tiers.size() > 0, 'Product Rateplan charge tier records prepare failed when prepare for testing product catalog.');
     }
@@ -296,7 +296,7 @@ public with sharing class TestDataSetup {
     try {
       insert acc;
     } catch (Exception e) {
-      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting Account record. Exception Details: ' + e.getMessage());
+      System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting Account record. Exception Details: ' + e.getMessage());
     }
     System.assert(null != acc.Id, 'Apex Test Failed to create Mockup account.');
 
@@ -307,7 +307,7 @@ public with sharing class TestDataSetup {
     try {
       insert billto;
     } catch (Exception e) {
-      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting Bill To Contact record. Exception Details: ' + e.getMessage());
+      System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting Bill To Contact record. Exception Details: ' + e.getMessage());
     }
     System.assert(null != billto.Id, 'Apex Test failed to create Mockup Bill To Contact.');
 
@@ -318,7 +318,7 @@ public with sharing class TestDataSetup {
     try {
       insert soldto;
     } catch (Exception e) {
-      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting Sold To Contact record. Exception Details: ' + e.getMessage());
+      System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting Sold To Contact record. Exception Details: ' + e.getMessage());
     }
     System.assert(null != soldto.Id, 'Apex Test failed to create Mockup Sold To Contact.');
 
@@ -330,7 +330,7 @@ public with sharing class TestDataSetup {
     try {
       insert opp;
     } catch (Exception e) {
-      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting Opportunity record. Exception Details: ' + e.getMessage());
+      System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting Opportunity record. Exception Details: ' + e.getMessage());
     }
     System.assert(null != opp.Id, 'The Insert Opportunity should not be null.');
     System.assert(null != opp.AccountId, 'The Insert Opportunity.AccountId should not be null.');
@@ -354,7 +354,7 @@ public with sharing class TestDataSetup {
     try {
       insert quote;
     } catch (Exception e) {
-      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting Quote record. Exception Details: ' + e.getMessage());
+      System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting Quote record. Exception Details: ' + e.getMessage());
     }
     System.assert(null != quote.Id, 'The Insert Quote should not be null.');
 
@@ -382,10 +382,10 @@ public with sharing class TestDataSetup {
         quoteCharges.add(quoteCharge);
       }
       try {
-	      insert quoteCharges;
-	    } catch (Exception e) {
-	      System.assert(false, 'TestDataSetup.prepareTestQuote: Exception occured while inserting QuoteCharge record. Exception Details: ' + e.getMessage());
-	    }
+        insert quoteCharges;
+      } catch (Exception e) {
+        System.assert(false, 'ExtendedTestDataSetup.prepareTestQuote: Exception occured while inserting QuoteCharge record. Exception Details: ' + e.getMessage());
+      }
     }
 
     return quote;

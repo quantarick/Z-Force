@@ -31,10 +31,18 @@ INTRODUCTION
 
 This Z-Force Sample Code package provides a reference implementation that split single Quote(MasterQuote) into two Quotes(SubQuote) and sending to Z-Billing.
 
+USE CASES
+---------
+a. The customers have two categories of Rate Plans ("Regular" and "Power") that need to send to Z-Billing according to the categories but to track using one Quote on SFDC called MasterQuote. 
+b. Correspondingly to the two categories, there could be two SubQuotes. In this sample code, we can send two SubQuotes simultaneously to Z-Billing (only if there are two different categories of Rate Plans selected for the Quote), 
+   and there will be two Subscriptions generated after sending to Z-Billing. 
+c. The Subscription(s) will generated on single existing Billing Account;
+d. The Subscription Zuora ID(s) will be written back to the SubQuote(s) then roll up to the MasterQuote, among which, the "Regular" Subscription's ID will be stored in MasterQuote's zqu__ZuoraSubscriptionID__c, 
+   and the "Power" Subscription's ID will be stored in the MasterQuotes' Extended_Zuora_Subscription_ID__c.
+e. The SubQuote(s) will be deleted after subscribing, and only MasterQuote will be persisted.
 
 PRE-REQUISITES
 -------------
-
 1. This sample code package is an unmanaged package that depends on the following Z-Force managed packages: 
 - Z-Force 360 Version 2.3
 - Z-Force Quotes Version 5.5
@@ -65,17 +73,17 @@ ant deploy
 
 This will deploy the sample code unmanaged package into your Salesforce.com organization.  
 
-
 And the second approach is by installation:
 
 1. Install this sample code package using the following Force.com Installation URL: 
 
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04tE0000000HPlS
+Z-Quotes Quote Split V 1.3
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04tE0000000HQcY
 
 This will install sample code unmanaged package into your Salesforce.com organization.
 
 PACKAGE CONTENTS 
-================
+----------------
 
 Fields (3)
 Component Name                                               Parent Object                      Component Type                Description
@@ -88,7 +96,7 @@ Code (3)
 Component Name                                               Parent Object                       Component Type               Description
 ExtendedZQuoteUtil                                                                                Apex Class                  The reference implementation that split single Quote(MasterQuote) into two Quotes(SubQuote) and sending to Z-Billing.
 SendToZBillingPreviewController                                                                   Apex Class                  The entry page' controller which is to call ExtendedZQuoteUtil.sendToZBilling.
-TestDataSetup                                                                                     Apex Class                  Setup test data for apex unit test.
+ExtendedTestDataSetup                                                                             Apex Class                  Setup test data for apex unit test.
 
 Pages (1)
 Component Name                                               Parent Object                       Component Type               Description
@@ -98,3 +106,16 @@ SendToZBillingPreview                                                           
 Resources (1)
 Component Name                                               Parent Object                       Component Type               Description
 Send to Z-Billing (Quote Split)                                  Quote                             Button or Link             The link to SendToZBillingPreview page. 
+
+OPERATION MANUAL
+---------------
+1. Sync the product catalog from Z-Billing as usual, then check the Product Rate Plans, choose part of the records and set the Category__c field on the records. 
+   Currently we support two categories "Power" or "Regular";
+2. Create an Opportunity;
+3. On the Opportunity, create a New Subscription Quote as MasterQuote and select products, either from "Power" or "Regular" category, for that Quote, 
+   in another word, you can choose Product Rate Plans which belong to different Categories for the MasterQuote;
+4. In the Quote Detail page, click "Send to Z-Billing(Quote Split)" button to enter the SendToZBillingPreview page;
+5. In the SendToZBillingPreview, choose an existing Billing Account in Z-Billing(If there's no existing Billing Account, please prepare at least one in Z-Billing System).
+6. Click Button "Send to Z-Billing" to complete subscribe call. 
+7. After that, you can verify the result in both SFDC and Z-Billing. In SFDC, the Quote object's zqu__ZuoraSubscriptionID__c or Extended_Zuora_Subscription_ID__c (or Both) should be populated with the Subscription ID(s) of SubQuote(s).
+   And In Z-Billing, the corresponding Subscription record(s) should be generated already.

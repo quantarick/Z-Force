@@ -116,7 +116,7 @@ public with sharing class SendToZBillingPreviewController {
   */
   @isTest
   private static void pageControllerCodeCaverageTest() {
-    final zqu__Quote__c masterQuote = TestDataSetup.getQuote();
+    final zqu__Quote__c masterQuote = ExtendedTestDataSetup.getQuote();
     SendToZBillingPreviewController pageController = new SendToZBillingPreviewController(new ApexPages.StandardController(masterQuote));
     pageController.doSend();
   }
