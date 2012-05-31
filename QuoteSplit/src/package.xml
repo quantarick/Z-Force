@@ -2,5 +2,25 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Z-Quotes Quote Split</fullName>
     <description>Sample code of splitting single Quote(MasterQuote) into two Quotes(SubQuote) and sending to Z-Billing.</description>
+    <types>
+        <members>ExtendedTestDataSetup</members>
+        <members>ExtendedZQuoteUtil</members>
+        <members>SendToZBillingPreviewController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SendToZBillingPreview</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>zqu__ProductRatePlan__c.Category__c</members>
+        <members>zqu__Quote__c.Extended_Zuora_Subscription_ID__c</members>
+        <members>zqu__Quote__c.MasterQuote__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>zqu__Quote__c.Send_to_Z_Billing_Quote_Split</members>
+        <name>WebLink</name>
+    </types>
     <version>21.0</version>
 </Package>
