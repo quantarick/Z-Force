@@ -1,0 +1,3 @@
+<apex:page standardController="zqu__Quote__c">
+   <apex:include pageName="HPMSample"/>
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page >
+   <apex:include pageName="HPMConfirm"/>
+   <apex:form >
+      <apex:detail subject="{!$CurrentPage.parameters.id}"/>
+   </apex:form>
+</apex:page>
