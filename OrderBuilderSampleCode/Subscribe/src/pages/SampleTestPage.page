@@ -31,14 +31,12 @@
 				title="Preview Subscription" status="acStatus"
 				value="Preview Subscription" reRender=""
 				oncomplete="resetMessage( 'stop', {!actionResult} )" />
-      <apex:commandButton
-				action="{!createSubscriptionWithExistingAccount}" status="acStatus"
+      <apex:commandButton action="{!createSubscriptionWithExistingAccount}" status="acStatus"
 				oncomplete="resetMessage( 'stop', {!actionResult} )"
 				title="Create Subscription(Existing Account)"
 				value="Create Subscription(Existing Account)"
 				reRender="hiddenResult" />
-			<apex:commandButton
-				action="{!previewSubscriptionWithExistingAccount}" status="acStatus"
+			<apex:commandButton action="{!previewSubscriptionWithExistingAccount}" status="acStatus"
 				oncomplete="resetMessage( 'stop', {!actionResult} )"
 				title="Preview Subscription(Existing Account)"
 				value="Preview Subscription(Existing Account)" reRender="" />
