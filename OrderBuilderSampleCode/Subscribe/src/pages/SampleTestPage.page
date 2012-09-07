@@ -1,47 +1,46 @@
 <apex:page controller="SubscribeSampleCodeController">
-	<script type="text/javascript">
-      function resetMessage( action, result ){
-        var d = document.getElementById( 'messageDiv' );
-        if( d.style.display = 'none' ){
-          d.style.display = 'block';
-        }
-        if( action == 'start' ){
-          d.innerHTML = '<span style="color:red">Action starts....</span>';
-        }
-        else if( action == 'stop' ){
-          if( result ){
-            d.innerHTML = '<span style="color:red">Action succeeds....</span>';
-          }
-          else{
-            d.innerHTML = '<span style="color:red">Action fails....</span>';
-          }
-         
-        }
+  <script type="text/javascript">
+    function resetMessage(action, result) {
+      var d = document.getElementById('messageDiv');
+      if (d.style.display = 'none') {
+        d.style.display = 'block';
       }
-  </script>
-	<h2>This is the sample code for creating subscriptions on Zuora.</h2>
-	<div>
-		<apex:form id="SampleForm">
-			<apex:actionStatus id="acStatus" onstart="resetMessage( 'start' )"></apex:actionStatus>
-			<apex:commandButton action="{!createSubscription}"
-				title="Create Subscription" value="Create Subscription"
-				status="acStatus" reRender=""
-				oncomplete="resetMessage( 'stop', {!actionResult} )" />
-      <apex:commandButton action="{!previewSubscription}"
-				title="Preview Subscription" status="acStatus"
-				value="Preview Subscription" reRender=""
-				oncomplete="resetMessage( 'stop', {!actionResult} )" />
-      <apex:commandButton action="{!createSubscriptionWithExistingAccount}" status="acStatus"
-				oncomplete="resetMessage( 'stop', {!actionResult} )"
-				title="Create Subscription(Existing Account)"
-				value="Create Subscription(Existing Account)"
-				reRender="hiddenResult" />
-			<apex:commandButton action="{!previewSubscriptionWithExistingAccount}" status="acStatus"
-				oncomplete="resetMessage( 'stop', {!actionResult} )"
-				title="Preview Subscription(Existing Account)"
-				value="Preview Subscription(Existing Account)" reRender="" />
+      if (action == 'start') {
+        d.innerHTML = '<span style="color:red">Action starts....</span>';
+      } else if (action == 'stop') {
+        if (result) {
+          d.innerHTML = '<span style="color:red">Action succeeds....</span>';
+        } else {
+          d.innerHTML = '<span style="color:red">Action fails....</span>';
+        }
 
-			<div style="display: none" id="messageDiv"></div>
-		</apex:form>
-	</div>
+      }
+    }
+  </script>
+  	<h2>This is the sample code for creating subscriptions on Zuora.</h2>
+
+  <div>
+    <apex:form id="SampleForm">
+      <apex:actionStatus id="acStatus" onstart="resetMessage( 'start' )"></apex:actionStatus>
+      <apex:commandButton action="{!createSubscription}"
+      title="Create Subscription" value="Create Subscription" status="acStatus"
+      reRender="" oncomplete="resetMessage( 'stop', {!actionResult} )" />
+      <apex:commandButton action="{!createSubscriptions}"
+      status="acStatus" oncomplete="resetMessage( 'stop', {!actionResult} )"
+      title="Create Subscriptions" value="Create Subscriptions"
+      reRender="" />   
+      <apex:commandButton action="{!previewSubscription}" title="Preview Subscription"
+      status="acStatus" value="Preview Subscription" reRender="" oncomplete="resetMessage( 'stop', {!actionResult} )"
+      />   
+      <apex:commandButton action="{!createSubscriptionWithExistingAccount}"
+      status="acStatus" oncomplete="resetMessage( 'stop', {!actionResult} )"
+      title="Create Subscription(Existing Account)" value="Create Subscription(Existing Account)"
+      reRender="hiddenResult" />
+      <apex:commandButton action="{!previewSubscriptionWithExistingAccount}"
+      status="acStatus" oncomplete="resetMessage( 'stop', {!actionResult} )"
+      title="Preview Subscription(Existing Account)" value="Preview Subscription(Existing Account)"
+      reRender="" />
+      <div style="display: none" id="messageDiv"></div>
+    </apex:form>
+  </div>
 </apex:page>

@@ -21,15 +21,11 @@ global class SubscribeCallSampleCode {
    * zsubscribe() call 
    * create a subscription in zuora and handle with the response
    */
-  global Boolean zsubscribe(Zuora.zApi.SubscribeRequest subscriptionRequest) {
-
-    List < Zuora.zApi.SubscribeRequest > requestList = new List < Zuora.zApi.SubscribeRequest > {
-      subscriptionRequest
-    };
+  global Boolean zsubscribe(List <Zuora.zApi.SubscribeRequest> subscriptionRequests) {
 
     //Zuora.zApi zApiInstance = new Zuora.zApi();
     //zApiInstance.zlogin();
-    List < Zuora.zApi.SubscribeResult > subscribeResults = zApiInstance.zsubscribe(requestList);
+    List < Zuora.zApi.SubscribeResult > subscribeResults = zApiInstance.zsubscribe(subscriptionRequests);
     Boolean actionResult = null;
     for (Zuora.zApi.SubscribeResult result: subscribeResults) {
       if (result.Success) {
@@ -73,9 +69,12 @@ global class SubscribeCallSampleCode {
    * Preview invoice data with a product rate plan that has two charges
    */
   global Boolean previewSubscription() {
-    Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubscriptionRequest();
+    final Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubscriptionRequest();
     subscriptionRequest.PreviewOptions = subscribeHelper.createPreviewOptions(true, 2);
-    return zsubscribe(subscriptionRequest);
+    final List <Zuora.zApi.SubscribeRequest> subscriptionRequests = new List <Zuora.zApi.SubscribeRequest> {
+    	subscriptionRequest
+    };
+    return zsubscribe(subscriptionRequests);
   }
 
   /**
@@ -89,18 +88,38 @@ global class SubscribeCallSampleCode {
    * Preview invoice data with an existing account and a product rate plan that has two charges
    */
   global Boolean previewSubscriptionWithExistingAccount(String accountId) {
-    Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubScriptionRequest(accountId);
+    final Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubScriptionRequest(accountId);
     subscriptionRequest.PreviewOptions = subscribeHelper.createPreviewOptions(true, 2);
-    return zsubscribe(subscriptionRequest);
+    final List <Zuora.zApi.SubscribeRequest> subscriptionRequests = new List <Zuora.zApi.SubscribeRequest> {
+    	subscriptionRequest
+    };
+    return zsubscribe(subscriptionRequests);
   }
 
   /**
    * Create a subscription with a product rate plan that has two charges
    */
   global Boolean createSubscription() {
-    Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubscriptionRequest();
-    return zsubscribe(subscriptionRequest);
+    final Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubscriptionRequest();
+    final List <Zuora.zApi.SubscribeRequest> subscriptionRequests = new List <Zuora.zApi.SubscribeRequest> {
+    	subscriptionRequest
+    };
+    return zsubscribe(subscriptionRequests);
   }
+
+  /**
+   * Create multiple subscriptions with a product rate plan that has two charges, expect to return two sucessful results.
+   */
+  global Boolean createSubscriptions() {
+    final Zuora.zApi.SubscribeRequest subscriptionRequest_1 = prepareSubscriptionRequest();
+    final Zuora.zApi.SubscribeRequest subscriptionRequest_2 = prepareSubscriptionRequest();
+    final List <Zuora.zApi.SubscribeRequest> subscriptionRequests = new List <Zuora.zApi.SubscribeRequest> {
+    	subscriptionRequest_1,
+    	subscriptionRequest_2
+    };
+    return zsubscribe(subscriptionRequests);
+  }
+
 
   global Boolean createSubscriptionWithExistingAccount() {
     return createSubscriptionWithExistingAccount(subscribeHelper.createZuoraAccount());
@@ -109,8 +128,11 @@ global class SubscribeCallSampleCode {
    * Create a subscription with an existing account and a product rate plan that has two charges
    */
   global Boolean createSubscriptionWithExistingAccount(String accountId) {
-    Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubScriptionRequest(accountId);
-    return zsubscribe(subscriptionRequest);
+    final Zuora.zApi.SubscribeRequest subscriptionRequest = prepareSubScriptionRequest(accountId);
+    final List <Zuora.zApi.SubscribeRequest> subscriptionRequests = new List <Zuora.zApi.SubscribeRequest> {
+    	subscriptionRequest
+    };
+    return zsubscribe(subscriptionRequests);
   }
 
   /**

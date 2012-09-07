@@ -14,6 +14,13 @@ public with sharing class SubscribeSampleCodeController {
     return null;
   }
 
+  public PageReference createSubscriptions() {
+    SubscribeCallSampleCode sampleCode = new SubscribeCallSampleCode();
+    actionResult = sampleCode.createSubscriptions();
+    log();
+    return null;
+  }
+
   public PageReference previewSubscription() {
     SubscribeCallSampleCode sampleCode = new SubscribeCallSampleCode();
     actionResult = sampleCode.previewSubscription();
